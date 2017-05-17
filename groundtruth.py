@@ -48,8 +48,7 @@ def app():
         print(pixel_coordinates)
         groundtruthlist.append(pixel_coordinates)
 
-    #http: // stackoverflow.com / questions / 38712635 / writing - list - of - tuples - to - a - textfile - and -reading - back - into - a - list
-
+    #http://stackoverflow.com/questions/38712635/writing-list-of-tuples-to-a-textfile-and-reading-back-into-a-list
     with open(fname, 'w') as f:
         for one_picture in groundtruthlist:
             f.write(str(one_picture))

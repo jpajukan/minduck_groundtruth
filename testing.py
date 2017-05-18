@@ -1,15 +1,19 @@
+# coding=utf-8
 # Importteina ainakin PIL, numpy filereadit ja writet
+import numpy
+from PIL import Image
+from os import listdir
+from os.path import isfile, join
+from algoritmimockup import mockupalgorithm
 
 def app():
-    # Alkuparemetrit, jotka on määriteltävä
-        # Ground truth tekstitiedoston sijainti
-        # Kuvakansion sijainti, kyseessä siis varsinainen testimateriaalikuvakansio, ei saa sekoittaa ground truth kuviin
+    # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
 
-    # Lue kuvakansion tiedostonimet
+    # Kuvakansion tiedostonimet
     # Jos siellä sattuu olee muutakin roskaa niin joudut erottelemaan .png päätteiset
-    # testfolder = "testikuvakansio"
-    # groundtruthfile = 'groundtruth.txt'
-    # imagenames = [f for f in listdir(testfolder) if isfile(join(testfolder, f))]
+    folder = "oikeakuvakansio"
+    groundtruthfile = 'groundtruth.txt'
+    imagenames = [f for f in listdir(folder) if isfile(join(folder, f))]
 
 
     # Alusta varsinainen leipäohjelma
@@ -20,24 +24,29 @@ def app():
     # Tämä on varmaan epäselvin osuus tässä ohjelmassa
 
     # Alusta lista testituloksia varten
+    testitulokset = []
 
     # Looppaa kuvatiedostot
-    # for kuva in imagenames:
+    for image_file_name in imagenames:
         # Lataa kuva
-        # Mahdollisesti voit käyttää PIL im = Image.open(folder + "/" + image_file)
-        # Muunna kuva muotoon jota algorimi syö, onko se RGB numpy array?
-        # PNG kuvat ovat RGBA joten joutunet sellaisen luettua muuttamaan sen RGB:ksi im = im.convert('RGB')
 
-        # Aloita ajanotto (jos on tarpeen)
+        im = Image.open(folder + "/" + image_file_name)
+        im = im.convert('RGB') # PNG RGBA muunto BGR #todo: INPUTIN ON OLTAVA BGR!!!!!
+        im_numpy = numpy.asarray(im) # http://stackoverflow.com/questions/384759/pil-and-numpy
+
         # Syötä numpy array algorimille
+        # Tässä käyteään vaan muokattua mockup algoritmia 5 kuukautta vanhasta sop.py:stä
+        result = mockupalgorithm(im_numpy)
         # Ota vastaan algoritmin output (täytyy sopia myöhemmin. Onko se reunapikselit, kulmapikselit vai alue?)
-        # Lopeta ajanotto (jos on tarpeen)
 
         # Syötä tulokset aikaisemmin alustettuu testituloslistaan
+        testitulokset.append(result)
 
-        # Uudelle kierrokselle loopissa
 
+    # Tälläinen on suunnilleen lopullinen outputti, eli vaan joukko pikseleitä
+    print testitulokset
 
+    # TODO:
     # Lue ground truth tiedosto
     # Joka rivillä siellä on yhden kuvan merkittävät pikselit koordinaattitupleina
     # Lue listaan seuraavasti

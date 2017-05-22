@@ -15,6 +15,8 @@ def app():
 
     onlyfiles = [f for f in listdir(folder) if isfile(join(folder, f))]
 
+    onlyfiles.sort()
+
     groundtruthlist = []
 
     for image_file in onlyfiles:

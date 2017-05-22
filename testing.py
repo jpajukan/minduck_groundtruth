@@ -15,13 +15,7 @@ def app():
     groundtruthfile = 'groundtruth.txt'
     imagenames = [f for f in listdir(folder) if isfile(join(folder, f))]
 
-
-    # Alusta varsinainen leipäohjelma
-    # Joudut jussin kanssa jutella miten teet tämän
-    # Jos ohjelmassa olisi varsinainen algoritmi omana funktionaan niin sitten voisi tehdä tyyliin
-    # From SOP import algolritmi
-    # Tai jos leipäohjelma paketoidaan luokaksi niin sitten luo luokan alkuparametrein ja kutsuu sen funktioita
-    # Tämä on varmaan epäselvin osuus tässä ohjelmassa
+    imagenames.sort()
 
     # Alusta lista testituloksia varten
     testitulokset = []
@@ -31,11 +25,15 @@ def app():
         # Lataa kuva
 
         im = Image.open(folder + "/" + image_file_name)
-        im = im.convert('RGB') # PNG RGBA muunto BGR #todo: INPUTIN ON OLTAVA BGR!!!!!
+        im = im.convert('RGB')
+
         im_numpy = numpy.asarray(im) # http://stackoverflow.com/questions/384759/pil-and-numpy
+
+        im_numpy = im_numpy[:, :, ::-1]  # PNG RGBA muunto BGR
 
         # Syötä numpy array algorimille
         # Tässä käyteään vaan muokattua mockup algoritmia 5 kuukautta vanhasta sop.py:stä
+        # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
         result = mockupalgorithm(im_numpy)
         # Ota vastaan algoritmin output (täytyy sopia myöhemmin. Onko se reunapikselit, kulmapikselit vai alue?)
 

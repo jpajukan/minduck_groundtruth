@@ -1,8 +1,9 @@
 from PIL import Image
 from os import listdir
 from os.path import isfile, join
+import sys
 
-def app():
+def app(argv):
     # Alkuparemetrit
     r = 0
     g = 0
@@ -11,7 +12,11 @@ def app():
     folder = "testikuvakansio"
     fname = 'groundtruth.txt'
 
-    type = "kulma linja vai alue" # ei vielä käytetty
+    try:
+        folder = argv[0]
+        fname = argv[1]
+    except IndexError:
+        pass
 
     onlyfiles = [f for f in listdir(folder) if isfile(join(folder, f))]
 
@@ -58,4 +63,4 @@ def app():
 
 
 if __name__ == '__main__':
-    app()
+    app(sys.argv[1:])

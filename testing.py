@@ -5,14 +5,22 @@ from PIL import Image
 from os import listdir
 from os.path import isfile, join
 from algoritmimockup import mockupalgorithm
+import sys
 
-def app():
+def app(argv):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
 
     # Kuvakansion tiedostonimet
     # Jos siellä sattuu olee muutakin roskaa niin joudut erottelemaan .png päätteiset
     folder = "oikeakuvakansio"
     groundtruthfile = 'groundtruth.txt'
+
+    try:
+        folder = argv[0]
+        groundtruthfile = argv[1]
+    except IndexError:
+        pass
+
     imagenames = [f for f in listdir(folder) if isfile(join(folder, f))]
 
     imagenames.sort()
@@ -62,4 +70,4 @@ def app():
 
 
 if __name__ == '__main__':
-    app()
+    app(sys.argv[1:])

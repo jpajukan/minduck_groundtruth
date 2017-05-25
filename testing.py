@@ -43,9 +43,7 @@ def app(argv):
         im_numpy = im_numpy[:, :, ::-1]  # PNG RGBA muunto BGR
 
         # Syötä numpy array algorimille
-        # Tässä käyteään vaan muokattua mockup algoritmia 5 kuukautta vanhasta sop.py:stä
         # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
-        # muuta kuva mustavalkoiseksi
         image = im_numpy
 
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -70,12 +68,6 @@ def app(argv):
     # Tälläinen on suunnilleen lopullinen outputti, eli vaan joukko pikseleitä
     #print testitulokset
 
-    # TODO:
-    # Lue ground truth tiedosto
-    # Joka rivillä siellä on yhden kuvan merkittävät pikselit koordinaattitupleina
-    # Lue listaan seuraavasti
-    # http://stackoverflow.com/questions/38712635/writing-list-of-tuples-to-a-textfile-and-reading-back-into-a-list
-
     gt_data = []
 
     with open(groundtruthfile, 'r') as f:
@@ -83,8 +75,6 @@ def app(argv):
 
         for line in all_lines:
             gt_data.append(ast.literal_eval(line))
-        #retreived_ds = ast.literal_eval(f.read())
-    # En ole kokeillut toimiiko, ja joudut tehä varmaan loopilla jokaisen rivin lukemisen erikseen
 
     c = 0
 

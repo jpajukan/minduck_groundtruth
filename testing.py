@@ -9,6 +9,18 @@ import sys
 from sop import segmentation, blur, contourfindrectangle
 import cv2
 import ast
+import math
+
+
+def coordinate_distance(c1, c2):
+    dx = c1[0] - c2[0]
+    dy = c1[1] - c2[1]
+
+    distance = math.sqrt((dx**2) + (dy**2))
+
+    return distance
+
+
 
 def app(argv):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
@@ -57,16 +69,15 @@ def app(argv):
 
         cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
 
-        result = cnt
+        result = []
+        for piste in cnt:
+            result.append((piste[0][0],piste[0][1]))
         # result = mockupalgorithm(im_numpy)
-        # Ota vastaan algoritmin output (täytyy sopia myöhemmin. Onko se reunapikselit, kulmapikselit vai alue?)
 
-        # Syötä tulokset aikaisemmin alustettuu testituloslistaan
         testitulokset.append(result)
 
 
-    # Tälläinen on suunnilleen lopullinen outputti, eli vaan joukko pikseleitä
-    #print testitulokset
+    print testitulokset
 
     gt_data = []
 
@@ -79,13 +90,12 @@ def app(argv):
     c = 0
 
     for t in testitulokset:
-        print t
-        print gt_data[c]
+        cc = 0
+
+        for piste in t:
+            print coordinate_distance(piste, gt_data[c][cc])
+            cc = cc + 1
         c = c + 1
-
-    # Yhdistä saamasi algoritmitulokset ja ground truth tiedosto matlabin datatiedostoksi (onko se .mat?)
-    # Ei mitään hajua miten tämä tehdään. Voit joutua luomaan useitakin tiedostoja
-
 
     return
 

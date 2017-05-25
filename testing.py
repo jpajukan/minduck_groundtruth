@@ -6,6 +6,9 @@ from os import listdir
 from os.path import isfile, join
 from algoritmimockup import mockupalgorithm
 import sys
+from sop import segmentation, blur, contourfindrectangle
+import cv2
+import ast
 
 def app(argv):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
@@ -42,7 +45,22 @@ def app(argv):
         # Syötä numpy array algorimille
         # Tässä käyteään vaan muokattua mockup algoritmia 5 kuukautta vanhasta sop.py:stä
         # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
-        result = mockupalgorithm(im_numpy)
+        # muuta kuva mustavalkoiseksi
+        image = im_numpy
+
+        image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # muuta kuva hsv vareiksi
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+        image_gray = blur(3, image_gray);
+
+        image_bw = segmentation(2, image_gray);
+
+        cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
+
+        result = cnt
+        # result = mockupalgorithm(im_numpy)
         # Ota vastaan algoritmin output (täytyy sopia myöhemmin. Onko se reunapikselit, kulmapikselit vai alue?)
 
         # Syötä tulokset aikaisemmin alustettuu testituloslistaan
@@ -50,17 +68,30 @@ def app(argv):
 
 
     # Tälläinen on suunnilleen lopullinen outputti, eli vaan joukko pikseleitä
-    print testitulokset
+    #print testitulokset
 
     # TODO:
     # Lue ground truth tiedosto
     # Joka rivillä siellä on yhden kuvan merkittävät pikselit koordinaattitupleina
     # Lue listaan seuraavasti
     # http://stackoverflow.com/questions/38712635/writing-list-of-tuples-to-a-textfile-and-reading-back-into-a-list
-    #with open(fname, 'r') as f:
+
+    gt_data = []
+
+    with open(groundtruthfile, 'r') as f:
+        all_lines = f.readlines()
+
+        for line in all_lines:
+            gt_data.append(ast.literal_eval(line))
         #retreived_ds = ast.literal_eval(f.read())
     # En ole kokeillut toimiiko, ja joudut tehä varmaan loopilla jokaisen rivin lukemisen erikseen
 
+    c = 0
+
+    for t in testitulokset:
+        print t
+        print gt_data[c]
+        c = c + 1
 
     # Yhdistä saamasi algoritmitulokset ja ground truth tiedosto matlabin datatiedostoksi (onko se .mat?)
     # Ei mitään hajua miten tämä tehdään. Voit joutua luomaan useitakin tiedostoja

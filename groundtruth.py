@@ -10,7 +10,7 @@ def app(argv):
     b = 255
 
     folder = "testikuvakansio"
-    fname = 'groundtruth.txt'
+    fname = 'groundtruthtesti1.txt'
 
     try:
         folder = argv[0]

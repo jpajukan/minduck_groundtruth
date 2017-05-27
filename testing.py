@@ -10,6 +10,7 @@ from sop import segmentation, blur, contourfindrectangle
 import cv2
 import ast
 import math
+import itertools
 
 
 def coordinate_distance(c1, c2):
@@ -20,6 +21,28 @@ def coordinate_distance(c1, c2):
 
     return distance
 
+
+def coordinate_distance_sum(array1, array2):
+    c = 0
+    distance_sum = 0
+    for i in array1:
+        distance_sum = distance_sum + coordinate_distance(i, array2[c])
+        c = c + 1
+
+    return distance_sum
+
+def smallest_result(values, groundtruth):
+    result = 10000000000000
+
+    coordinatepermutations = itertools.permutations(values)
+
+    for i in coordinatepermutations:
+        possibleresult = coordinate_distance_sum(i, groundtruth)
+
+        if (possibleresult < result):
+            result = possibleresult
+
+    return result
 
 
 def app(argv):
@@ -90,13 +113,14 @@ def app(argv):
     c = 0
 
     for t in testitulokset:
-        cc = 0
+        r = smallest_result(t, gt_data[c])
+        print r
 
-        for piste in t:
-            print coordinate_distance(piste, gt_data[c][cc])
-            cc = cc + 1
+        if (r > 100):
+            print t
+            print gt_data[c]
+
         c = c + 1
-
     return
 
 

@@ -44,6 +44,8 @@ def smallest_result(values, groundtruth):
 
     return result
 
+def rmse(algo_data, gt_data):  #https://stackoverflow.com/questions/21926020/how-to-calculate-rmse-using-ipython-numpy
+    return numpy.sqrt(((algodata - gt_data) ** 2).mean())    #https://stackoverflow.com/questions/17197492/root-mean-square-error-in-python
 
 def app(argv):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
@@ -103,7 +105,8 @@ def app(argv):
     print testitulokset
 
     gt_data = []
-
+    analysis_data = []
+    
     with open(groundtruthfile, 'r') as f:
         all_lines = f.readlines()
 
@@ -119,6 +122,8 @@ def app(argv):
         if (r > 100):
             print t
             print gt_data[c]
+            tulos = rmse(t, gt_data[c])
+            analysis_data.append(tulos)
 
         c = c + 1
     return

@@ -1,7 +1,7 @@
 # coding=utf-8
 # Importteina ainakin PIL, numpy filereadit ja writet
 import numpy
-from PIL import Image
+from PIL import Image, ImageDraw
 from os import listdir
 from os.path import isfile, join
 from algoritmimockup import mockupalgorithm

@@ -31,21 +31,39 @@ def coordinate_distance_sum(array1, array2):
 
     return distance_sum
 
+def coordinate_distance_array(array1, array2):
+    c = 0
+    distance_array = []
+    for i in array1:
+        distance_array.append(coordinate_distance(i, array2[c]))
+        c = c + 1
+
+    return distance_array
+
 def smallest_result(values, groundtruth):
-    result = 10000000000000
+    result = 10000000000000000000
 
     coordinatepermutations = itertools.permutations(values)
 
     for i in coordinatepermutations:
-        possibleresult = coordinate_distance_sum(i, groundtruth)
+        #possibleresult = coordinate_distance_sum(i, groundtruth)
 
+        e = coordinate_distance_array(i, groundtruth)
+
+        possibleresult = rmse_errors(numpy.array(e))
         if (possibleresult < result):
             result = possibleresult
 
     return result
 
+
 def rmse(algo_data, gt_data):  #https://stackoverflow.com/questions/21926020/how-to-calculate-rmse-using-ipython-numpy
-    return numpy.sqrt(((algodata - gt_data) ** 2).mean())    #https://stackoverflow.com/questions/17197492/root-mean-square-error-in-python
+    return numpy.sqrt(((algo_data - gt_data) ** 2).mean())    #https://stackoverflow.com/questions/17197492/root-mean-square-error-in-python
+
+
+def rmse_errors(errors):
+    return numpy.sqrt((errors ** 2).mean())
+
 
 def app(argv):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
@@ -54,6 +72,7 @@ def app(argv):
     # Jos siellä sattuu olee muutakin roskaa niin joudut erottelemaan .png päätteiset
     folder = "oikeakuvakansio"
     groundtruthfile = 'groundtruth.txt'
+    outputfolder = "testi1output"
 
     try:
         folder = argv[0]
@@ -94,11 +113,19 @@ def app(argv):
 
         cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
 
+        draw = ImageDraw.Draw(im)
+
+
         result = []
         for piste in cnt:
             result.append((piste[0][0],piste[0][1]))
+            draw.line((piste[0][0] - 2, piste[0][1], piste[0][0] + 2, piste[0][1]), fill=128)
+            draw.line((piste[0][0], piste[0][1] -2, piste[0][0], piste[0][1] + 2), fill=128)
+            im.save(outputfolder + "/" + image_file_name)
+
         # result = mockupalgorithm(im_numpy)
 
+        del draw
         testitulokset.append(result)
 
 
@@ -122,8 +149,8 @@ def app(argv):
         if (r > 100):
             print t
             print gt_data[c]
-            tulos = rmse(t, gt_data[c])
-            analysis_data.append(tulos)
+            #tulos = rmse(t, gt_data[c])
+            #analysis_data.append(tulos)
 
         c = c + 1
     return

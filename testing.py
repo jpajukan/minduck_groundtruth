@@ -70,17 +70,20 @@ def app(argv):
 
     # Kuvakansion tiedostonimet
     # Jos siellä sattuu olee muutakin roskaa niin joudut erottelemaan .png päätteiset
-    folder = "oikeakuvakansio"
+    main_folder = "mallitesti"
     groundtruthfile = 'groundtruth.txt'
-    outputfolder = "testi1output"
+
+    input_folder = "input"
+    output_folder = "output"
+
+    output_file = "result.txt"
 
     try:
-        folder = argv[0]
-        groundtruthfile = argv[1]
+        main_folder = argv[0]
     except IndexError:
         pass
 
-    imagenames = [f for f in listdir(folder) if isfile(join(folder, f))]
+    imagenames = [f for f in listdir(main_folder + "/" + input_folder) if isfile(join(main_folder + "/" + input_folder, f))]
 
     imagenames.sort()
 
@@ -91,7 +94,7 @@ def app(argv):
     for image_file_name in imagenames:
         # Lataa kuva
 
-        im = Image.open(folder + "/" + image_file_name)
+        im = Image.open(main_folder + "/" + input_folder + "/" + image_file_name)
         im = im.convert('RGB')
 
         im_numpy = numpy.asarray(im) # http://stackoverflow.com/questions/384759/pil-and-numpy
@@ -121,7 +124,7 @@ def app(argv):
             result.append((piste[0][0],piste[0][1]))
             draw.line((piste[0][0] - 2, piste[0][1], piste[0][0] + 2, piste[0][1]), fill=128)
             draw.line((piste[0][0], piste[0][1] -2, piste[0][0], piste[0][1] + 2), fill=128)
-            im.save(outputfolder + "/" + image_file_name)
+            im.save(main_folder + "/" + output_folder + "/" + image_file_name)
 
         # result = mockupalgorithm(im_numpy)
 
@@ -134,7 +137,7 @@ def app(argv):
     gt_data = []
     analysis_data = []
     
-    with open(groundtruthfile, 'r') as f:
+    with open(main_folder + "/" + groundtruthfile, 'r') as f:
         all_lines = f.readlines()
 
         for line in all_lines:
@@ -145,6 +148,7 @@ def app(argv):
     for t in testitulokset:
         r = smallest_result(t, gt_data[c])
         print r
+        analysis_data.append(r)
 
         if (r > 100):
             print t
@@ -153,6 +157,11 @@ def app(argv):
             #analysis_data.append(tulos)
 
         c = c + 1
+
+    with open(main_folder + "/" +output_file, 'w') as f:
+        for tulos in analysis_data:
+            f.write(str(tulos))
+            f.write("\n")
     return
 
 

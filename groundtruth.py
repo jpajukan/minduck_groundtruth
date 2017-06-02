@@ -9,23 +9,24 @@ def app(argv):
     g = 0
     b = 255
 
-    folder = "testikuvakansio"
-    fname = 'groundtruthtesti1.txt'
+    main_folder = "mallitesti"
+    groundtruth_folder = "groundtruth"
+
+    fname = 'groundtruth.txt'
 
     try:
-        folder = argv[0]
-        fname = argv[1]
+        main_folder = argv[0]
     except IndexError:
         pass
 
-    onlyfiles = [f for f in listdir(folder) if isfile(join(folder, f))]
+    onlyfiles = [f for f in listdir(main_folder + "/" + groundtruth_folder) if isfile(join(main_folder + "/" + groundtruth_folder, f))]
 
     onlyfiles.sort()
 
     groundtruthlist = []
 
     for image_file in onlyfiles:
-        im = Image.open(folder + "/" + image_file)  # Can be many different formats.
+        im = Image.open(main_folder + "/" + groundtruth_folder + "/" + image_file)  # Can be many different formats.
 
         im = im.convert('RGB')
 
@@ -56,7 +57,7 @@ def app(argv):
         groundtruthlist.append(pixel_coordinates)
 
     #http://stackoverflow.com/questions/38712635/writing-list-of-tuples-to-a-textfile-and-reading-back-into-a-list
-    with open(fname, 'w') as f:
+    with open(main_folder + "/" +fname, 'w') as f:
         for one_picture in groundtruthlist:
             f.write(str(one_picture))
             f.write("\n")

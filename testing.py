@@ -45,6 +45,10 @@ def smallest_result(values, groundtruth):
 
     coordinatepermutations = itertools.permutations(values)
 
+    selectedpermutation = []
+
+    selecteddistances = []
+
     for i in coordinatepermutations:
         #possibleresult = coordinate_distance_sum(i, groundtruth)
 
@@ -53,8 +57,10 @@ def smallest_result(values, groundtruth):
         possibleresult = rmse_errors(numpy.array(e))
         if (possibleresult < result):
             result = possibleresult
+            selectedpermutation = i
+            selecteddistances = e
 
-    return result
+    return result, selectedpermutation, selecteddistances
 
 
 def rmse(algo_data, gt_data):  #https://stackoverflow.com/questions/21926020/how-to-calculate-rmse-using-ipython-numpy
@@ -77,6 +83,7 @@ def app(argv):
     output_folder = "output"
 
     output_file = "result.txt"
+    output_file_large = "result_large.txt"
 
     try:
         main_folder = argv[0]
@@ -136,6 +143,7 @@ def app(argv):
 
     gt_data = []
     analysis_data = []
+    analysis_data_printable = []
     
     with open(main_folder + "/" + groundtruthfile, 'r') as f:
         all_lines = f.readlines()
@@ -146,9 +154,20 @@ def app(argv):
     c = 0
 
     for t in testitulokset:
-        r = smallest_result(t, gt_data[c])
+        r, order, distances = smallest_result(t, gt_data[c])
         print r
         analysis_data.append(r)
+
+        analysis_data_printable.append("********************************************")
+        analysis_data_printable.append("Pircture name: " + imagenames[c])
+        analysis_data_printable.append("Result RMSE: " + str(r))
+        analysis_data_printable.append("Ground   : " + str(gt_data[c]))
+        analysis_data_printable.append("Input    : " + str(t))
+        analysis_data_printable.append("Ordered  : " + str(order))
+        analysis_data_printable.append("Distances: " + str(distances))
+        analysis_data_printable.append("Avg distance: " + str((sum(distances)/len(distances))))
+        analysis_data_printable.append("********************************************")
+
 
         if (r > 100):
             print t
@@ -160,6 +179,11 @@ def app(argv):
 
     with open(main_folder + "/" +output_file, 'w') as f:
         for tulos in analysis_data:
+            f.write(str(tulos))
+            f.write("\n")
+
+    with open(main_folder + "/" +output_file_large, 'w') as f:
+        for tulos in analysis_data_printable:
             f.write(str(tulos))
             f.write("\n")
     return

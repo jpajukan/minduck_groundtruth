@@ -11,6 +11,7 @@ import cv2
 import ast
 import math
 import itertools
+from timeit import default_timer as timer
 
 
 def coordinate_distance(c1, c2):
@@ -85,6 +86,8 @@ def app(argv):
     output_file = "result.txt"
     output_file_large = "result_large.txt"
 
+    output_file_time = "result_running_times.txt"
+
     try:
         main_folder = argv[0]
     except IndexError:
@@ -96,6 +99,7 @@ def app(argv):
 
     # Alusta lista testituloksia varten
     testitulokset = []
+    testiajat = []
 
     # Looppaa kuvatiedostot
     for image_file_name in imagenames:
@@ -110,6 +114,9 @@ def app(argv):
 
         # Syötä numpy array algorimille
         # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
+
+        # Ajanoton alku
+        start = timer()
         image = im_numpy
 
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -122,6 +129,11 @@ def app(argv):
         image_bw = segmentation(2, image_gray);
 
         cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
+
+        # Ajanoton loppu
+        end = timer()
+
+        testiajat.append(end - start)
 
         draw = ImageDraw.Draw(im)
 
@@ -166,6 +178,7 @@ def app(argv):
         analysis_data_printable.append("Ordered  : " + str(order))
         analysis_data_printable.append("Distances: " + str(distances))
         analysis_data_printable.append("Avg distance: " + str((sum(distances)/len(distances))))
+        analysis_data_printable.append("Running time: " + str(testiajat[c]))
         analysis_data_printable.append("********************************************")
 
 
@@ -186,6 +199,12 @@ def app(argv):
         for tulos in analysis_data_printable:
             f.write(str(tulos))
             f.write("\n")
+
+    with open(main_folder + "/" +output_file_time, 'w') as f:
+        for tulos in testiajat:
+            f.write(str(tulos))
+            f.write("\n")
+
     return
 
 

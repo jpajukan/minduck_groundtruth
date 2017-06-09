@@ -129,7 +129,6 @@ def app(argv):
         image_bw = segmentation(2, image_gray);
 
         cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
-
         # Ajanoton loppu
         end = timer()
 
@@ -139,13 +138,22 @@ def app(argv):
 
 
         result = []
-        for piste in cnt:
-            result.append((piste[0][0],piste[0][1]))
-            draw.line((piste[0][0] - 2, piste[0][1], piste[0][0] + 2, piste[0][1]), fill=128)
-            draw.line((piste[0][0], piste[0][1] -2, piste[0][0], piste[0][1] + 2), fill=128)
-            im.save(main_folder + "/" + output_folder + "/" + image_file_name)
 
-        # result = mockupalgorithm(im_numpy)
+        if(not isinstance(cnt, (int, long ))):
+
+            for piste in cnt:
+                result.append((piste[0][0],piste[0][1]))
+                draw.line((piste[0][0] - 2, piste[0][1], piste[0][0] + 2, piste[0][1]), fill=128)
+                draw.line((piste[0][0], piste[0][1] -2, piste[0][0], piste[0][1] + 2), fill=128)
+                im.save(main_folder + "/" + output_folder + "/" + image_file_name)
+
+            # result = mockupalgorithm(im_numpy)
+        else:
+            result.append((0, 0))
+            result.append((0, 0))
+            result.append((0, 0))
+            result.append((0, 0))
+            im.save(main_folder + "/" + output_folder + "/" + image_file_name)
 
         del draw
         testitulokset.append(result)

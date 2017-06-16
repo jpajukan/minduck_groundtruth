@@ -88,6 +88,9 @@ def app(argv):
 
     output_file_time = "result_running_times.txt"
 
+
+    correct_detection_distance_limit = 3
+
     try:
         main_folder = argv[0]
     except IndexError:
@@ -173,10 +176,13 @@ def app(argv):
 
     c = 0
 
+    distances_all = []
+
     for t in testitulokset:
         r, order, distances = smallest_result(t, gt_data[c])
         print r
         analysis_data.append(r)
+        distances_all.append(distances)
 
         analysis_data_printable.append("********************************************")
         analysis_data_printable.append("Pircture name: " + imagenames[c])
@@ -186,6 +192,8 @@ def app(argv):
         analysis_data_printable.append("Ordered  : " + str(order))
         analysis_data_printable.append("Distances: " + str(distances))
         analysis_data_printable.append("Avg distance: " + str((sum(distances)/len(distances))))
+        analysis_data_printable.append("Number of wrong: " + str(sum(i > correct_detection_distance_limit for i in distances)))
+        analysis_data_printable.append("Number of right: " + str(sum(i <= correct_detection_distance_limit for i in distances)))
         analysis_data_printable.append("Running time: " + str(testiajat[c]))
         analysis_data_printable.append("********************************************")
 
@@ -197,6 +205,55 @@ def app(argv):
             #analysis_data.append(tulos)
 
         c = c + 1
+
+
+    # Kokonaisanalyysin tekoa kaikista tuloksista
+    analysis_data_printable.append("********************************************")
+    analysis_data_printable.append("Analysis from all distances")
+    analysis_data_printable.append("Number of pictures: " + str(len(distances_all)))
+    analysis_data_printable.append("Right/wrong dist limit: " + str(correct_detection_distance_limit))
+
+    overall_wrong = 0
+    overall_right = 0
+
+    for d in distances_all:
+        overall_wrong += sum(i > correct_detection_distance_limit for i in d)
+        overall_right += sum(i <= correct_detection_distance_limit for i in d)
+
+    analysis_data_printable.append(
+        "Overall wrongly detected corners: " + str(overall_wrong))
+    analysis_data_printable.append(
+        "Overall rightly detected corners: " + str(overall_right))
+
+    # Luokkia
+
+    correct = []
+    failed1 = []
+    failed2 = []
+    failed3 = []
+    failed4 = []
+
+    for d in distances_all:
+        wrongs = sum(i > correct_detection_distance_limit for i in d)
+        if wrongs == 0:
+            correct.append(d)
+        if wrongs == 1:
+            failed1.append(d)
+        if wrongs == 2:
+            failed2.append(d)
+        if wrongs == 3:
+            failed3.append(d)
+        if wrongs == 4:
+            failed4.append(d)
+
+    analysis_data_printable.append("Correct detected pictures: " + str(len(correct)))
+    analysis_data_printable.append("Correct detected avg distance: " + str(numpy.mean(numpy.array(correct))))
+    analysis_data_printable.append("Correct detected distance standard deviation: " + str(numpy.std(numpy.array(correct))))
+    analysis_data_printable.append("1 corner failed pictures: " + str(len(failed1)))
+    analysis_data_printable.append("2 corner failed pictures: " + str(len(failed2)))
+    analysis_data_printable.append("3 corner failed pictures: " + str(len(failed3)))
+    analysis_data_printable.append("4 corner failed pictures: " + str(len(failed4)))
+
 
     with open(main_folder + "/" +output_file, 'w') as f:
         for tulos in analysis_data:

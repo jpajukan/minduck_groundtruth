@@ -6,7 +6,8 @@ from os import listdir
 from os.path import isfile, join
 from algoritmimockup import mockupalgorithm
 import sys
-from sop import segmentation, blur, contourfindrectangle
+#from sop import segmentation, blur, contourfindrectangle
+from sop_testing_shit import segmentation, blur, contourfindrectangle, contourThatHasCentroid
 import cv2
 import ast
 import math
@@ -88,6 +89,9 @@ def app(argv):
 
     output_file_time = "result_running_times.txt"
 
+    width = 320
+    height = 240
+
 
     correct_detection_distance_limit = 3
 
@@ -118,6 +122,11 @@ def app(argv):
         # Syötä numpy array algorimille
         # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
 
+        areafoundfirsttime = True
+        centroidx = width / 2
+        centroidy = height / 2
+        areafound = True
+
         # Ajanoton alku
         start = timer()
         image = im_numpy
@@ -131,7 +140,11 @@ def app(argv):
 
         image_bw = segmentation(2, image_gray);
 
-        cnt, origin = contourfindrectangle(image, image_bw)  # eka frame tai kokoajan
+        #cnt, origin = contourThatHasCentroid(image, image_bw)  # eka frame tai kokoajan
+
+        cnt, origin, centroidx, centroidy, areafound = contourThatHasCentroid(image_bw, centroidx, centroidy,
+                                                                              areafound)
+
         # Ajanoton loppu
         end = timer()
 

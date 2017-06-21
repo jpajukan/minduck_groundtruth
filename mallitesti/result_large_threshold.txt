@@ -1,0 +1,97 @@
+********************************************
+Pircture name: k1.png
+Result RMSE: 1.73205080757
+Ground   : [(182, 57), (91, 63), (190, 206), (92, 209)]
+Input    : [(191, 205), (92, 209), (90, 65), (180, 56)]
+Ordered  : ((180, 56), (90, 65), (191, 205), (92, 209))
+Distances: [2.23606797749979, 2.23606797749979, 1.4142135623730951, 0.0]
+Avg distance: 1.47158737934
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00149458293866
+********************************************
+********************************************
+Pircture name: k4.png
+Result RMSE: 1.41421356237
+Ground   : [(116, 51), (222, 72), (40, 163), (198, 204)]
+Input    : [(222, 72), (199, 202), (41, 164), (117, 51)]
+Ordered  : ((117, 51), (222, 72), (41, 164), (199, 202))
+Distances: [1.0, 0.0, 1.4142135623730951, 2.23606797749979]
+Avg distance: 1.16257038497
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00143856280563
+********************************************
+********************************************
+Pircture name: k5.png
+Result RMSE: 1.58113883008
+Ground   : [(113, 47), (191, 47), (100, 157), (186, 162)]
+Input    : [(191, 49), (186, 161), (100, 157), (115, 46)]
+Ordered  : ((115, 46), (191, 49), (100, 157), (186, 161))
+Distances: [2.23606797749979, 2.0, 0.0, 1.0]
+Avg distance: 1.30901699437
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00158310330155
+********************************************
+********************************************
+Pircture name: k6.png
+Result RMSE: 1.11803398875
+Ground   : [(101, 66), (175, 69), (78, 166), (164, 173)]
+Input    : [(175, 69), (163, 172), (79, 165), (102, 66)]
+Ordered  : ((102, 66), (175, 69), (79, 165), (163, 172))
+Distances: [1.0, 0.0, 1.4142135623730951, 1.4142135623730951]
+Avg distance: 0.957106781187
+Number of wrong: 0
+Number of right: 4
+Running time: 0.0016275773003
+********************************************
+********************************************
+Pircture name: k7.png
+Result RMSE: 1.11803398875
+Ground   : [(85, 54), (179, 56), (44, 183), (165, 195)]
+Input    : [(179, 56), (164, 195), (45, 184), (86, 53)]
+Ordered  : ((86, 53), (179, 56), (45, 184), (164, 195))
+Distances: [1.4142135623730951, 0.0, 1.4142135623730951, 1.0]
+Avg distance: 0.957106781187
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00154033984122
+********************************************
+********************************************
+Pircture name: k8.png
+Result RMSE: 1.0
+Ground   : [(103, 50), (195, 59), (81, 181), (184, 191)]
+Input    : [(195, 60), (183, 191), (81, 180), (104, 50)]
+Ordered  : ((104, 50), (195, 60), (81, 180), (183, 191))
+Distances: [1.0, 1.0, 1.0, 1.0]
+Avg distance: 1.0
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00158695201298
+********************************************
+********************************************
+Pircture name: k9.png
+Result RMSE: 1.11803398875
+Ground   : [(124, 53), (211, 63), (97, 175), (194, 188)]
+Input    : [(211, 64), (193, 188), (98, 174), (125, 53)]
+Ordered  : ((125, 53), (211, 64), (98, 174), (193, 188))
+Distances: [1.0, 1.0, 1.4142135623730951, 1.0]
+Avg distance: 1.10355339059
+Number of wrong: 0
+Number of right: 4
+Running time: 0.00149543820787
+********************************************
+********************************************
+Analysis from all distances
+Number of pictures: 7
+Right/wrong dist limit: 3
+Overall wrongly detected corners: 0
+Overall rightly detected corners: 28
+Correct detected pictures: 7
+Correct detected avg distance: 1.13727738738
+Correct detected distance standard deviation: 0.67572194293
+1 corner failed pictures: 0
+2 corner failed pictures: 0
+3 corner failed pictures: 0
+4 corner failed pictures: 0

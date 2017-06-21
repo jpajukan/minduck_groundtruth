@@ -73,25 +73,37 @@ def rmse_errors(errors):
     return numpy.sqrt((errors ** 2).mean())
 
 
-def app(argv):
+def app(argv, th=False):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
 
     # Kuvakansion tiedostonimet
     # Jos siellä sattuu olee muutakin roskaa niin joudut erottelemaan .png päätteiset
+
+    thstring = ""
+    if th:
+        thstring = "_threshold"
+
     main_folder = "mallitesti"
     groundtruthfile = 'groundtruth.txt'
 
     input_folder = "input"
     output_folder = "output"
 
-    output_file = "result.txt"
-    output_file_large = "result_large.txt"
+    output_file = "result" + thstring + ".txt"
+    output_file_large = "result_large" + thstring + ".txt"
 
-    output_file_time = "result_running_times.txt"
+    output_file_time = "result_running_times" + thstring + ".txt"
 
     width = 320
     height = 240
 
+    #Cannyasetukset
+    blurselection = 3
+    segmentationselection = 2
+
+    if th:
+        blurselection = 0
+        segmentationselection = 2
 
     correct_detection_distance_limit = 3
 
@@ -133,12 +145,12 @@ def app(argv):
 
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # muuta kuva hsv vareiksi
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        # muuta kuva hsv vareiksi ei tarvi
+        #hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-        image_gray = blur(3, image_gray);
+        image_gray = blur(blurselection, image_gray);
 
-        image_bw = segmentation(2, image_gray);
+        image_bw = segmentation(segmentationselection, image_gray);
 
         #cnt, origin = contourThatHasCentroid(image, image_bw)  # eka frame tai kokoajan
 
@@ -161,15 +173,16 @@ def app(argv):
                 result.append((piste[0][0],piste[0][1]))
                 draw.line((piste[0][0] - 2, piste[0][1], piste[0][0] + 2, piste[0][1]), fill=128)
                 draw.line((piste[0][0], piste[0][1] -2, piste[0][0], piste[0][1] + 2), fill=128)
-                im.save(main_folder + "/" + output_folder + "/" + image_file_name)
+                im.save(main_folder + "/" + output_folder + "/" + image_file_name.replace(".", thstring + "."))
 
             # result = mockupalgorithm(im_numpy)
         else:
+            # TODO: saatava jotenkin myos se milloin palauttaa tyhjaa arvoa
             result.append((0, 0))
             result.append((0, 0))
             result.append((0, 0))
             result.append((0, 0))
-            im.save(main_folder + "/" + output_folder + "/" + image_file_name)
+            im.save(main_folder + "/" + output_folder + "/" + image_file_name.replace(".", thstring + "."))
 
         del draw
         testitulokset.append(result)
@@ -288,3 +301,4 @@ def app(argv):
 
 if __name__ == '__main__':
     app(sys.argv[1:])
+    app(sys.argv[1:], th=True)

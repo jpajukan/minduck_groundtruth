@@ -1,0 +1,126 @@
+********************************************
+Pircture name: kuva1.png
+Result RMSE: 2.59807621135
+Ground   : [(133, 32), (289, 36), (128, 140), (299, 145)]
+Input    : [(298, 142), (131, 140), (133, 34), (287, 36)]
+Ordered  : ((133, 34), (287, 36), (131, 140), (298, 142))
+Distances: [2.0, 2.0, 3.0, 3.1622776601683795]
+Avg distance: 2.54056941504
+Number of wrong: 0
+Number of right: 4
+Avg of wrong distances: 0
+Avg of right distances: 2.54056941504
+Running time: 0.00114544225291
+********************************************
+********************************************
+Pircture name: kuva2.png
+Result RMSE: 2.69258240357
+Ground   : [(133, 32), (289, 36), (128, 141), (299, 145)]
+Input    : [(298, 142), (131, 140), (133, 34), (287, 37)]
+Ordered  : ((133, 34), (287, 37), (131, 140), (298, 142))
+Distances: [2.0, 2.23606797749979, 3.1622776601683795, 3.1622776601683795]
+Avg distance: 2.64015582446
+Number of wrong: 0
+Number of right: 4
+Avg of wrong distances: 0
+Avg of right distances: 2.64015582446
+Running time: 0.00221778000528
+********************************************
+********************************************
+Pircture name: kuva3.png
+Result RMSE: 2.5495097568
+Ground   : [(134, 32), (290, 38), (129, 140), (299, 145)]
+Input    : [(298, 143), (131, 140), (134, 34), (288, 35)]
+Ordered  : ((134, 34), (288, 35), (131, 140), (298, 143))
+Distances: [2.0, 3.605551275463989, 2.0, 2.23606797749979]
+Avg distance: 2.46040481324
+Number of wrong: 0
+Number of right: 4
+Avg of wrong distances: 0
+Avg of right distances: 2.46040481324
+Running time: 0.0022419250896
+********************************************
+********************************************
+Pircture name: kuva4.png
+Result RMSE: 27.0185121722
+Ground   : [(134, 32), (291, 38), (129, 140), (299, 145)]
+Input    : [(315, 2), (297, 145), (129, 138), (138, 0)]
+Ordered  : ((138, 0), (315, 2), (129, 138), (297, 145))
+Distances: [32.2490309931942, 43.266615305567875, 2.0, 2.0]
+Avg distance: 19.8789115747
+Number of wrong: 2
+Number of right: 2
+Avg of wrong distances: 37.7578231494
+Avg of right distances: 2.0
+Running time: 0.00243123320734
+********************************************
+********************************************
+Pircture name: kuva5.png
+Result RMSE: 21.3307290077
+Ground   : [(134, 32), (290, 38), (129, 140), (299, 145)]
+Input    : [(318, 6), (297, 145), (129, 138), (136, 32)]
+Ordered  : ((136, 32), (318, 6), (129, 138), (297, 145))
+Distances: [2.0, 42.5205832509386, 2.0, 2.0]
+Avg distance: 12.1301458127
+Number of wrong: 1
+Number of right: 3
+Avg of wrong distances: 42.5205832509
+Avg of right distances: 2.0
+Running time: 0.00174122783198
+********************************************
+********************************************
+Pircture name: kuva6.png
+Result RMSE: 28.8487434735
+Ground   : [(134, 32), (288, 39), (128, 140), (299, 145)]
+Input    : [(318, 1), (297, 145), (128, 138), (138, 1)]
+Ordered  : ((138, 1), (318, 1), (128, 138), (297, 145))
+Distances: [31.25699921617557, 48.41487374764082, 2.0, 2.0]
+Avg distance: 20.917968241
+Number of wrong: 2
+Number of right: 2
+Avg of wrong distances: 39.8359364819
+Avg of right distances: 2.0
+Running time: 0.00226264567895
+********************************************
+********************************************
+Pircture name: kuva7.png
+Result RMSE: 31.5356940624
+Ground   : [(134, 31), (288, 43), (127, 139), (298, 147)]
+Input    : [(129, 139), (318, 1), (135, 1), (318, 144)]
+Ordered  : ((135, 1), (318, 1), (129, 139), (318, 144))
+Distances: [30.01666203960727, 51.61395160225576, 2.0, 20.223748416156685]
+Avg distance: 25.9635905145
+Number of wrong: 3
+Number of right: 1
+Avg of wrong distances: 33.9514540193
+Avg of right distances: 2.0
+Running time: 0.00405215897559
+********************************************
+********************************************
+Pircture name: kuva8.png
+Result RMSE: 29.6732202499
+Ground   : [(134, 31), (293, 40), (126, 138), (296, 148)]
+Input    : [(318, 142), (128, 138), (317, 1), (135, 1)]
+Ordered  : ((135, 1), (317, 1), (128, 138), (318, 142))
+Distances: [30.01666203960727, 45.79301256742124, 2.0, 22.80350850198276]
+Avg distance: 25.1532957773
+Number of wrong: 3
+Number of right: 1
+Avg of wrong distances: 32.8710610363
+Avg of right distances: 2.0
+Running time: 0.00238257056927
+********************************************
+********************************************
+Analysis from all distances
+Number of pictures: 8
+Right/wrong dist limit: 4
+Overall wrongly detected corners: 11
+Overall rightly detected corners: 21
+Avg runtime: 0.00230937295136
+Correct detected pictures: 3
+Correct detected avg distance: 2.54704335091
+Correct detected distance standard deviation: 0.588135615226
+1 corner failed pictures: 1
+2 corner failed pictures: 2
+3 corner failed pictures: 2
+4 corner failed pictures: 0

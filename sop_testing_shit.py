@@ -180,7 +180,7 @@ def corner_angle(a, b, c):
 
     return angle
 
-def corner_pruning3(cnt):
+def corner_pruning3(cnt, width, heigth):
     if len(cnt) >= 5:
         # kaksi heikkoa 3 vahvaa jos cnt on 5
         # 4 heikkoa 2 vahvaa jos cnt on 6
@@ -263,14 +263,13 @@ def corner_pruning3(cnt):
 
             result = line_intersection(line1, line2)
 
-            # TODO: automaattinen leveys ja korkeus
-            if not ((result[0] < 0) or (result[1] < 0) or (result[0] > 320) or (result[1] > 240)):
+            if not ((result[0] < 0) or (result[1] < 0) or (result[0] > width) or (result[1] > heigth)):
                 ec = np.array([[[result[0], result[1]]]])
                 additional_points = np.append(additional_points, ec, axis=0)
 
         cnt = np.append(cnt, additional_points, axis=0)
 
-        sorted_weaks = sorted(weaks, key=int, reverse=True)
+        #sorted_weaks = sorted(weaks, key=int, reverse=True)
         #return cnt
         # Karsitaan heikot pois ensin
         #for w in sorted_weaks:
@@ -408,8 +407,7 @@ def contourThatHasCentroid(image_bw, centroidx, centroidy, areafound):
         # tarkista onko edellinen centroid uudessa alueessa
         insidearea = cv2.pointPolygonTest(cnt, (centroidx, centroidy), False)
         if insidearea == 1:
-
-            cnt = corner_pruning3(cnt)
+            cnt = corner_pruning3(cnt, len(image_bw[0]), len(image_bw))
             # tama voi muuttua -------------------------------------------------------
             # poista kulmat jos kulmia on yli 4
             # if len(cnt) == 5:  # 5 kulmaa

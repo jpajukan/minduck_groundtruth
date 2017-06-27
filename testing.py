@@ -13,6 +13,7 @@ import ast
 import math
 import itertools
 from timeit import default_timer as timer
+import timeit
 
 
 def coordinate_distance(c1, c2):
@@ -73,6 +74,35 @@ def rmse_errors(errors):
     return numpy.sqrt((errors ** 2).mean())
 
 
+def safe_div(x, y):
+    if y == 0:
+        return 0
+    return x / y
+
+
+def algorithm_time_test(image, blurnumber, segmentationnumber, centroidx, centroidy):
+    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # muuta kuva hsv vareiksi ei tarvi
+    # hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    image_gray = blur(blurnumber, image_gray);
+
+    image_bw = segmentation(segmentationnumber, image_gray);
+
+    # cnt, origin = contourThatHasCentroid(image, image_bw)  # eka frame tai kokoajan
+
+    cnt, origin, centroidx, centroidy, areafound = contourThatHasCentroid(image_bw, centroidx, centroidy,
+                                                                          True)
+
+
+def wrapper(func, *args, **kwargs):
+    def wrapped():
+        return func(*args, **kwargs)
+
+    return wrapped
+
+
 def app(argv, th=False):
     # Tää on ajettava python 2.7 ja opencv 3.1 (myös 3.x pitäis kelvata
 
@@ -102,8 +132,8 @@ def app(argv, th=False):
     segmentationselection = 2
 
     if th:
-        blurselection = 0
-        segmentationselection = 2
+        blurselection = 3
+        segmentationselection = 1
 
     correct_detection_distance_limit = 3
 
@@ -139,8 +169,7 @@ def app(argv, th=False):
         centroidy = height / 2
         areafound = True
 
-        # Ajanoton alku
-        start = timer()
+
         image = im_numpy
 
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -154,13 +183,15 @@ def app(argv, th=False):
 
         #cnt, origin = contourThatHasCentroid(image, image_bw)  # eka frame tai kokoajan
 
-        cnt, origin, centroidx, centroidy, areafound = contourThatHasCentroid(image_bw, centroidx, centroidy,
+        cnt, origin, centroidx_, centroidy_, areafound_ = contourThatHasCentroid(image_bw, centroidx, centroidy,
                                                                               areafound)
 
-        # Ajanoton loppu
-        end = timer()
+        # Aikamittaus algoritmista tassa kohti
+        wrapped = wrapper(algorithm_time_test, image, blurselection, segmentationselection, centroidx, centroidy)
+        extime = timeit.timeit(wrapped, number=1000)
+        extime = extime / 1000
 
-        testiajat.append(end - start)
+        testiajat.append(extime)
 
         draw = ImageDraw.Draw(im)
 
@@ -188,7 +219,7 @@ def app(argv, th=False):
         testitulokset.append(result)
 
 
-    print testitulokset
+    #print testitulokset
 
     gt_data = []
     analysis_data = []
@@ -206,7 +237,7 @@ def app(argv, th=False):
 
     for t in testitulokset:
         r, order, distances = smallest_result(t, gt_data[c])
-        print r
+        #print r
         analysis_data.append(r)
         distances_all.append(distances)
 
@@ -220,15 +251,14 @@ def app(argv, th=False):
         analysis_data_printable.append("Avg distance: " + str((sum(distances)/len(distances))))
         analysis_data_printable.append("Number of wrong: " + str(sum(i > correct_detection_distance_limit for i in distances)))
         analysis_data_printable.append("Number of right: " + str(sum(i <= correct_detection_distance_limit for i in distances)))
+
+        wrong_distances = [i for i in distances if i > correct_detection_distance_limit]
+        right_distances = [i for i in distances if i <= correct_detection_distance_limit]
+
+        analysis_data_printable.append("Avg of wrong distances: " + str(safe_div(sum(wrong_distances), len(wrong_distances))))
+        analysis_data_printable.append("Avg of right distances: " + str(safe_div(sum(right_distances), len(right_distances))))
         analysis_data_printable.append("Running time: " + str(testiajat[c]))
         analysis_data_printable.append("********************************************")
-
-
-        if (r > 100):
-            print t
-            print gt_data[c]
-            #tulos = rmse(t, gt_data[c])
-            #analysis_data.append(tulos)
 
         c = c + 1
 
@@ -250,6 +280,8 @@ def app(argv, th=False):
         "Overall wrongly detected corners: " + str(overall_wrong))
     analysis_data_printable.append(
         "Overall rightly detected corners: " + str(overall_right))
+    analysis_data_printable.append(
+        "Avg runtime: " + str(safe_div(sum(testiajat), len(testiajat))))
 
     # Luokkia
 
@@ -296,9 +328,14 @@ def app(argv, th=False):
             f.write(str(tulos))
             f.write("\n")
 
+
     return
 
 
 if __name__ == '__main__':
-    app(sys.argv[1:])
+
+    #app(sys.argv[1:])
     app(sys.argv[1:], th=True)
+
+    app(sys.argv[1:])
+    #app(sys.argv[1:], th=True)

@@ -124,8 +124,8 @@ def app(argv, th=False):
 
     output_file_time = "result_running_times" + thstring + ".txt"
 
-    width = 320
-    height = 240
+    #width = 320
+    #height = 240
 
     #Cannyasetukset
     blurselection = 3
@@ -161,8 +161,8 @@ def app(argv, th=False):
 
         im_numpy = im_numpy[:, :, ::-1]  # PNG RGBA muunto BGR
 
-        # Syötä numpy array algorimille
-        # Oikeasti pitäis alustaa ohjelmaluokka ja kaikki
+        height = len(im_numpy)
+        width = len(im_numpy[0])
 
         areafoundfirsttime = True
         centroidx = width / 2

@@ -430,6 +430,8 @@ def contourThatHasCentroid(image_bw, centroidx, centroidy, areafound):
 
             # laske centroid
             m = cv2.moments(cnt)
+            if m['m00'] == 0:
+                return cnt, (0, 0), 0, 0, areafound
             centroidx = int(m['m10'] / m['m00'])
             centroidy = int(m['m01'] / m['m00'])
             areafound = True

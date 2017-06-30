@@ -187,7 +187,7 @@ def corner_pruning3(cnt, width, heigth):
 
         if len(cnt) > 6:
             cnt = prune_1_by_min_distance(cnt)
-            cnt = corner_pruning3(cnt)
+            cnt = corner_pruning3(cnt, width, heigth)
             return cnt
 
         weaks = []

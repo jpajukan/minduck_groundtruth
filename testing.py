@@ -135,7 +135,7 @@ def app(argv, th=False):
         blurselection = 3
         segmentationselection = 1
 
-    correct_detection_distance_limit = 4
+    correct_detection_distance_limit = 6
 
     try:
         main_folder = argv[0]
